@@ -1,4 +1,4 @@
-import sys
+import argparse
 import math
 import random
 
@@ -21,7 +21,7 @@ def distance(c1, c2):
 
 
 def print_circles(c):
-    f = open(sys.argv[len(sys.argv) - 1], "w")
+    f = open(file, "w")
     for i in c:
         f.write(str(i[0]))
         f.write(' ')
@@ -135,41 +135,41 @@ def check_collision(c, l):
 
 
 def print_boundary(f):
-    with open(sys.argv[6]) as i:
+    with open(args.boundary_file) as i:
         f.write(i.read())
 
 # variable check1 is True when there is a specific r (-r) given, same for all circles
 # variable check2 is True when there is a boundary file
 # variable check3 is True when there is a specific circle number (-i) given
+
 check2 = False
 check3 = False
-if sys.argv[1] == '-i':
-    items = int(sys.argv[2])
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--items", type=int)
+parser.add_argument("-r", "--radius", type=int)
+parser.add_argument("--seed", "--seed", type=int)
+parser.add_argument("--min_radius", type=int)
+parser.add_argument("--max_radius", type=int)
+parser.add_argument("-b", "--boundary_file")
+parser.add_argument("filename", help="name of output file")
+args = parser.parse_args()
+if args.items:
+    items = args.items
     check3 = True
-elif sys.argv[1] == '--seed':
-    random.seed(int(sys.argv[2]))
-    check1 = False
-    if sys.argv[3] == '--min_radius':
-        min1 = int(sys.argv[4])
-    if sys.argv[5] == '--max_radius':
-        max1 = int(sys.argv[6])
-    if sys.argv[7] == '-b':
-        boundary_list = read_boundary(sys.argv[8])
-        sys.argv[6]= sys.argv[8]
-        check2 = True
-if sys.argv[3] == '-r':
-    r = int(sys.argv[4])
+if args.radius:
+    r = args.radius
     check1 = True
-if sys.argv[5] == '-b':
-    boundary_list = read_boundary(sys.argv[6])
-    check2 = True
-if sys.argv[3] == '--seed':
-    random.seed(int(sys.argv[4]))
+if args.seed:
+    random.seed(args.seed)
     check1 = False
-    if sys.argv[5] == '--min_radius':
-        min1 = int(sys.argv[6])
-    if sys.argv[7] == '--max_radius':
-        max1 = int(sys.argv[8])
+if args.min_radius:
+    min1 = args.min_radius
+if args.max_radius:
+    max1 = args.max_radius
+if args.boundary_file:
+    boundary_list = read_boundary(args.boundary_file)
+    check2 = True
+file = args.filename
 circles = []
 if check1:
     first = (0.00, 0.00, r)
