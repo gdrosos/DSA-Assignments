@@ -1,2 +1,2 @@
-# Python-Assignments
-Python Assignments for the university course of Algorithms and Data Structures
+# Data Structures and Algorithms Assignments
+Python Assignments for the university course of Data Structures and Algorithms
